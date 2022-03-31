@@ -1,0 +1,63 @@
+name: test
+
+on:
+  push: null
+  pull_request: null
+
+jobs:
+  test-windows:
+    strategy:
+      matrix:
+        os: [windows-latest, windows-2022, windows-2019]
+        go-version: [1.18, 1.17]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          go-version: ${{ matrix.go-version }}
+      - run: docker run -p 3306:3306 -e MARIADB_ALLOW_EMPTY_ROOT_PASSWORD=1 mariadb
+        name: Run MariaDB with Docker
+      - run: go get -v -u
+        name: Run Go Get
+      - run: go test
+        name: Run Go Test
+
+  test-ubuntu:
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, ubuntu-20.04, ubuntu-18.04 ]
+        go-version: [ 1.18, 1.17 ]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          go-version: ${{ matrix.go-version }}
+      - run: docker run -p 3306:3306 -e MARIADB_ALLOW_EMPTY_ROOT_PASSWORD=1 mariadb
+        name: Run MariaDB with Docker
+      - run: go get -v -u
+        name: Run Go Get
+      - run: go test
+        name: Run Go Test
+
+  test-macos:
+    strategy:
+      matrix:
+        os: [ macos-latest, macos-11, macos-10.15 ]
+        go-version: [ 1.18, 1.17 ]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          go-version: ${{ matrix.go-version }}
+      - run: docker run -p 3306:3306 -e MARIADB_ALLOW_EMPTY_ROOT_PASSWORD=1 mariadb
+        name: Run MariaDB with Docker
+      - run: go get -v -u
+        name: Run Go Get
+      - run: go test
+        name: Run Go Test
