@@ -17,7 +17,7 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           go-version: ${{ matrix.go-version }}
-      - run: "& C:\\Program Files\\Docker\\DockerCli.exe -SwitchLinuxEngine"
+      - run: "& \"C:\\Program Files\\Docker\\DockerCli.exe\" -SwitchLinuxEngine"
         name: Switch Docker to Linux Containers
       - run: docker run -p 3306:3306 -e MARIADB_ALLOW_EMPTY_ROOT_PASSWORD=1 mariadb
         name: Run MariaDB with Docker
